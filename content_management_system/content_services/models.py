@@ -15,7 +15,7 @@ class ContentDetails(models.Model):
     document =models.CharField(max_length=256, null=False)
     categories =models.CharField(max_length=256, null=False)
     delete_by =models.CharField(max_length=256, null=True)
-    is_deleted =models.IntegerField(default=False)
+    is_deleted =models.BooleanField(default=False)
     created_datetime = models.DateTimeField(auto_now_add=True)
     modified_datetime = models.DateTimeField(auto_now=True)
     deleted_datetime = models.DateTimeField(default=None, null=True, blank=True)

@@ -6,7 +6,7 @@ from django.db.models import Q
 import sys,os,json
 from configurations import messages,constants
 from .serializer import *
-
+from authentication.views.common_method import *
 @csrf_exempt
 def insert_content(request):
     try:
@@ -49,7 +49,31 @@ def get_content(request):
     except Exception as error:
         print_error("str",error)
         return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
+
+@csrf_exempt
+def update_content(request):
+    try:
+        user_request = request if type(request) is dict else json.loads(request.body)
+        user_id,content_id,creator_id= user_request['user_id'],user_request['content_id'],user_request['creator_id']
         
+        """ To get the user role with respect to user id"""
+        user_role = get_user_role(user_id)
+        if user_role != constants.ADMIN_ROLE or user_id != creator_id:
+            return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_401_UNAUTHORIZED),messages.MESSAGE:messages.UNAUTHORIZED_ACCESS}, safe=False, status=str(constants.HTTP_401_UNAUTHORIZED))
+        
+        is_content_exist = ContentDetails.objects.filter(content_id=content_id).first()
+        if not is_content_exist:
+            return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_404_NOT_FOUND), messages.MESSAGE: messages.NO_DATA_FOUND}, safe=False,status=constants.HTTP_404_NOT_FOUND) 
+        
+        update_serializer = UpdateUserContentSerializer(is_content_exist, data=user_request)
+        if not update_serializer.is_valid():
+            print("update_serializer",update_serializer.errors)
+            return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
+        update_serializer.save()
+        return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_200_OK), messages.MESSAGE: messages.SUCCESSFULLY_RESPONSE}, safe=False,status=constants.HTTP_200_OK) 
+    except Exception as error:
+        print_error(str(request.path),error)
+        return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
         
 def print_error(func_name,error=''):
     exc_type, exc_obj, exc_tb = sys.exc_info()

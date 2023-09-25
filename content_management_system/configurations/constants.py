@@ -31,5 +31,10 @@ POST = 'POST'
 
 
 """
-
-USERS = "user"
+ADMIN_ROLE = "admin"
+USERS_ROLE= "user"
+BOOLEAN_FALSE= False
+BOOLEAN_TRUE = True
+TOKEN_EXPIRY = 90
+SECRET_KEY = "assessment@423232"
+APP_ID = "assesments2023"
