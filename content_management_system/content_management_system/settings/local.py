@@ -5,7 +5,7 @@ load_dotenv()
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('MYSQL_DB_NAME'),
         'USER': os.getenv('MYSQL_DB_USER'),
         'PASSWORD': os.getenv('MYSQL_DB_PASSWORD'),
