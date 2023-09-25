@@ -6,14 +6,14 @@ This repository contains a Django project with PostgreSQL as the database backen
 
 ## Prerequisites
 
-- Python 3.x installed
+- Python 3
 - PostgreSQL installed and running
 
 ## Setup
 
 **Clone the repository:**
 
-   git clone <repository_url>
+   git clone https://github.com/pykash24/CMS.git
    cd <repository_name>
 
 # 1.Create a virtual environment and activate it:
