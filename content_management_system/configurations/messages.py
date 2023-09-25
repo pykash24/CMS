@@ -7,7 +7,7 @@ RATE_LIMIT_EXCEEDED = "Rate limit exceeded"
 INVALID_REQUEST_BODY = "Invalid request body"
 INVALID_CREDENTIAL = "Invalid credential"
 INTERVAL_REQUEST_BODY = "Something went wrong. please try again later"
-
+METHOD_NOT_ALLOWED = "The requested method is not allowed for this endpoint"
 """
 
 """
