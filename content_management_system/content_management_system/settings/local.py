@@ -6,10 +6,10 @@ load_dotenv()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('NEW_DB_NAME'),
-        'USER': os.getenv('NEW_DB_USER'),
-        'PASSWORD': os.getenv('NEW_DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.getenv('MYSQL_DB_NAME'),
+        'USER': os.getenv('MYSQL_DB_USER'),
+        'PASSWORD': os.getenv('MYSQL_DB_PASSWORD'),
+        'HOST': os.getenv('HOST'),
+        'PORT': os.getenv('DEFAULT_DB_PORT'),
     }
 }
