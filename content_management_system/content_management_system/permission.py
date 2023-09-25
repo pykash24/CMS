@@ -12,9 +12,9 @@ class UserAccessPermission:
         return self.get_response(request)
     def process_view(self, request,view_func, view_args, view_kargs):
         try:
-            
+            print(request.path)
             """ This is used to bypass the listed URL"""
-            if str(request.path).strip() in ["Bypass URL","Bypass URL"]:
+            if str(request.path).strip() in ["/authentication/user_authentication/","/authentication/user_register/"]:
                 print("passing")
                 return None
             else:
