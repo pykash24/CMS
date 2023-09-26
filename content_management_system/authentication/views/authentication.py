@@ -6,6 +6,8 @@ import sys,os,json
 from configurations import messages,constants
 from .serializer import *
 from .common_method import *
+from rest_framework.decorators import api_view
+
 
 """
     METHOD: user_register
@@ -13,26 +15,26 @@ from .common_method import *
     AUTHOR: Vikas Tomar
     Date: 25/09/2023
 """
+
+@api_view(['POST'],)
 @csrf_exempt
 def user_register(request):
     try:
-        if request.method == constants.POST:
-            user_request = request if type(request) is dict else json.loads(request.body)
-            
-            """ To check the user request is valid as email, password validations."""
-            is_exist_request_valid = validate_user_registration(request)
-            if bool(is_exist_request_valid):
-                return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: is_exist_request_valid}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
-            user_request['user_role'] = constants.USERS_ROLE
-            
-            """ To call the UserRegistrationSerializer serializer"""
-            is_user_registration_valid = UserRegistrationSerializer(data=user_request)
-            if not is_user_registration_valid.is_valid():
-                print("user_register",is_user_registration_valid.errors)
-                return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
-            new_user_register = is_user_registration_valid.save()
-            return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_200_OK), messages.MESSAGE: messages.SUCCESSFULLY_RESPONSE}, safe=False,status=constants.HTTP_200_OK) 
-        return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_405_METHOD_NOT_ALLOWED), messages.MESSAGE: messages.METHOD_NOT_ALLOWED}, safe=False,status=constants.HTTP_405_METHOD_NOT_ALLOWED) 
+        user_request = request if type(request) is dict else json.loads(request.body)
+        
+        """ To check the user request is valid as email, password validations."""
+        is_exist_request_valid = validate_user_registration(request)
+        if bool(is_exist_request_valid):
+            return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: is_exist_request_valid}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
+        user_request['user_role'] = constants.USERS_ROLE
+        
+        """ To call the UserRegistrationSerializer serializer"""
+        is_user_registration_valid = UserRegistrationSerializer(data=user_request)
+        if not is_user_registration_valid.is_valid():
+            print("user_register",is_user_registration_valid.errors)
+            return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
+        new_user_register = is_user_registration_valid.save()
+        return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_200_OK), messages.MESSAGE: messages.SUCCESSFULLY_RESPONSE}, safe=False,status=constants.HTTP_200_OK) 
     except Exception as error:
         print_error(str(request.path),error)
         return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
