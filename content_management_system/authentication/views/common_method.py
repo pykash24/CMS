@@ -5,12 +5,25 @@ import datetime,jwt,time
 from configurations import constants, messages
 import re
 import json
+
+
+"""
+    METHOD: print_error
+    DESCRIPTION: This is used to print the exception
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def print_error(func_name,error=''):
     exc_type, exc_obj, exc_tb = sys.exc_info()
     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     print(f"{func_name} : {str(error)}", " in ", fname, " at ", exc_tb.tb_lineno)
     
-    
+"""
+    METHOD: get_user_role
+    DESCRIPTION: This is used to get the user role
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def get_user_role(user_id):
     try:
         if user_details := UserDetails.objects.filter(user_id=user_id).first():
@@ -20,7 +33,12 @@ def get_user_role(user_id):
         print_error("get_user_role", error)
         return False
     
-# User token generate...
+"""
+    METHOD: generate_token
+    DESCRIPTION: This is used to generate the user token
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def generate_token(request):
     try:
         expiry_time = datetime.datetime.now()+timedelta(minutes=constants.TOKEN_EXPIRY)
@@ -33,12 +51,22 @@ def generate_token(request):
         print(error)
         return False
 
-# Regular expression for validating an email address
-
+"""
+    METHOD: is_valid_email
+    DESCRIPTION: This is used to validate the email
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def is_valid_email(email):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(email_regex, email) is not None
 
+"""
+    METHOD: is_valid_password
+    DESCRIPTION: This is used to validate the password
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def is_valid_password(password):
     if len(password) < 8:
         return False
@@ -48,6 +76,12 @@ def is_valid_password(password):
         return False
     return True
 
+"""
+    METHOD: validate_user_registration
+    DESCRIPTION: This is used to user registration field
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def validate_user_registration(request):
     try:
         user_request = request if type(request) is dict else json.loads(request.body)

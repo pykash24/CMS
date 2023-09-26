@@ -7,6 +7,13 @@ import sys,os,json
 from configurations import messages,constants
 from .serializer import *
 from authentication.views.common_method import *
+
+"""
+    METHOD: insert_content
+    DESCRIPTION: This is used to insert the user content
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 @csrf_exempt
 def insert_content(request):
     try:
@@ -22,7 +29,12 @@ def insert_content(request):
     except Exception as error:
         return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
 
-
+"""
+    METHOD: get_content
+    DESCRIPTION: This is used to print the exception
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 @csrf_exempt
 def get_content(request):
     try:
@@ -50,6 +62,12 @@ def get_content(request):
         print_error("str",error)
         return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
 
+"""
+    METHOD: update_content
+    DESCRIPTION: This is used to update the content
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 @csrf_exempt
 def update_content(request):
     try:
@@ -74,7 +92,13 @@ def update_content(request):
     except Exception as error:
         print_error(str(request.path),error)
         return JsonResponse({messages.STATUS_CODE: str(constants.HTTP_500_INTERNAL_SERVER_ERROR), messages.MESSAGE: messages.INTERVAL_REQUEST_BODY}, safe=False,status=constants.HTTP_400_BAD_REQUEST) 
-        
+
+"""
+    METHOD: print_error
+    DESCRIPTION: This is used to print error logs
+    AUTHOR: Vikas Tomar
+    Date: 25/09/2023
+"""
 def print_error(func_name,error=''):
     exc_type, exc_obj, exc_tb = sys.exc_info()
     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
