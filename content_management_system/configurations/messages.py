@@ -11,6 +11,7 @@ METHOD_NOT_ALLOWED = "The requested method is not allowed for this endpoint"
 INCORRECT_PASSWORD = "Please enter valid password"
 INCORRECT_EMAIL = "Please enter valid email"
 EMAIL_ALREADY_EXIST = "Email already exist"
+INVALID_PINCODE = "Please entry valid pincode"
 """
 
 """

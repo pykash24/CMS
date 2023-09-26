@@ -99,6 +99,10 @@ def validate_user_registration(request):
             email=user_request['email']
         ).first():
             return messages.EMAIL_ALREADY_EXIST
+        
+        """ To validate the user pincode """
+        if len(str(user_request['pincode'])) > 6:
+            return messages.INVALID_PINCODE
         return False
     except Exception as error:
         return False
